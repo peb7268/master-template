@@ -1,0 +1,15 @@
+{
+  "name": "master-tpl",
+  "version": "0.0.0",
+  "authors": [
+    "peb7268 <peb7268@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
