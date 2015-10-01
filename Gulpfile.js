@@ -8,12 +8,15 @@ var source          = require('vinyl-source-stream');
 var uglify          = require('gulp-uglify');
 var buffer          = require('vinyl-buffer');
 
+var jade            = require('gulp-jade');
 var sass            = require('gulp-sass');
 var autoprefixer    = require('gulp-autoprefixer');
 var browserSync     = require('browser-sync');
 var notify          = require('gulp-notify');
 
 var paths           = {
+    'jade'            : './public/templates/**/*.jade',
+    'views'           : './public',
     'sass'            : './public/styles/sass/**/*.scss',
     'css'             : './public/styles/css/',
     'js'              : './public/js/**/*.js',
@@ -24,6 +27,16 @@ browserSync.init({
     server: {
         baseDir: './public/'
     }
+});
+
+gulp.task('views', function() {
+  var YOUR_LOCALS = {};
+ 
+  gulp.src(paths.jade)
+    .pipe(jade({
+      locals: YOUR_LOCALS
+    }))
+    .pipe(gulp.dest(paths.views))
 });
 
 gulp.task('lint', function() {
@@ -59,9 +72,10 @@ gulp.task('sass', function() {
 });
 
 gulp.task('serve', function(){
+    gulp.watch(paths.jade, ['views']);
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.js,   ['lint', 'scripts']);
     gulp.watch(['./public/*.html']).on('change', browserSync.reload);
 });
 
-gulp.task('default', ['js', 'sass', 'serve']);
+gulp.task('default', ['js', 'sass', 'views', 'serve']);
